@@ -22,35 +22,38 @@ with col3:
 with col4:
     kwds[3] = st.text_input('Add a search term', key='kwd4')
 
-    search_options = st.sidebar.form('Search Options')
+    search_options = st.sidebar.container()
 
     with search_options:
     
-        geo_picker = st.selectbox('Geo', COUNTRIES.values())
-        time_period_picker = st.selectbox('Time range', TIMEFRAMES)
-        # category_picker = st.selectbox('Category', ('Email', 'Home phone', 'Mobile phone'))
-        # search_property_picker = st.selectbox('Search property', ('Email', 'Home phone', 'Mobile phone'))
-    
-        filters_submitted = st.form_submit_button("Apply filters")
+        geo_picker = st.selectbox('Geo', COUNTRIES.values(), index=len(COUNTRIES) - 1)
+        geo_code = get_key_from_value(COUNTRIES, geo_picker)
         
-        if filters_submitted:
-            df = interest_over_time(non_empty_kwds)
+        time_period_picker = st.selectbox('Time range', TIMEFRAMES, index=2)
+
+        search_property_picker = st.selectbox('Search property', ('search', 'images', 'news', 'youtube', 'froogle'))
+
+        if search_property_picker == 'search':
+            search_property_picker = ''
+                
+        # category_picker = st.selectbox('Category', ('Email', 'Home phone', 'Mobile phone'))
+    
+        
 
     
 
 # Filters out zero len kwds
 non_empty_kwds = [kwd for kwd in kwds if len(kwd) > 0]
 
-# Faudra sans doute mettre ca dans un try/except pour cas ou il n'y a pas de mots clés tappés 
-df = interest_over_time(non_empty_kwds)
+# Faudra sans doute mettre ca dans un try/except pour cas ou il n'y a pas de mots clés tappés
+
+df = interest_over_time(non_empty_kwds, geo_code=geo_code, timeframe=time_period_picker, gprop=search_property_picker)
+df.drop('isPartial', axis=1, inplace=True)
+
+st.markdown('#')
 
 st.line_chart(df)
 
-
-
-df.drop('isPartial', axis=1, inplace=True)
-
-# df.drop('is
 
 
 

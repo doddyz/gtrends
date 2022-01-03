@@ -53,9 +53,9 @@ DEFAULT_TIMEFRAME = 'today 12-m'
 # Refine tz param value to uk local value, see live params in web trends tool 
 pytrends = TrendReq(hl='en-US', tz=360)
 
-def interest_over_time(kwd_list, timeframe=DEFAULT_TIMEFRAME, export=0):
+def interest_over_time(kwd_list, geo_code='US', timeframe=DEFAULT_TIMEFRAME, gprop='', export=0):
     # Empty geo param to get a list of countries with interest
-    pytrends.build_payload(kwd_list, timeframe=timeframe)
+    pytrends.build_payload(kwd_list, geo=geo_code, timeframe=timeframe, gprop=gprop)
     df = pytrends.interest_over_time()
     if (export == 0):
         return df
@@ -156,9 +156,9 @@ def related_queries_simple(geoCode='US', timeframe=DEFAULT_TIMEFRAME, query_type
 
 
 # Remove zero low country data, sort country data by descending interest
-def interest_by_country(kwd_list, timeframe=DEFAULT_TIMEFRAME, export=0):
+def interest_by_country(kwd_list, geoCode='US', timeframe=DEFAULT_TIMEFRAME, export=0):
     # Empty geo param to get a list of countries with interest
-    pytrends.build_payload(kwd_list, cat=0, timeframe=timeframe, gprop='')
+    pytrends.build_payload(kwd_list, cat=0, timeframe=timeframe, geo=geoCode, gprop='')
     export_filename = 'interest_by_country' + '.csv'
     df = pytrends.interest_by_region(resolution='COUNTRY', inc_low_vol=True, inc_geo_code=True)
     # Create a Tmp column to map geoCodes to target/marketed country names only
