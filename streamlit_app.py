@@ -1,3 +1,9 @@
+# Voir pourquoi UK searches bugging
+# Build line graph with altair with tooltips for dimensions + dates
+# Build data to use in the average bar chart
+# Next check other pytrends available
+
+
 from trends import *
 import streamlit as st
 
@@ -22,27 +28,32 @@ with col3:
 with col4:
     kwds[3] = st.text_input('Add a search term', key='kwd4')
 
-    search_options = st.sidebar.container()
+search_options = st.sidebar.container()
+export_options = st.sidebar.container()
 
-    with search_options:
+with search_options:
     
-        geo_picker = st.selectbox('Geo', COUNTRIES.values(), index=len(COUNTRIES) - 1)
-        geo_code = get_key_from_value(COUNTRIES, geo_picker)
-        
-        time_period_picker = st.selectbox('Time range', TIMEFRAMES, index=2)
+    geo_picker = st.selectbox('Geo', COUNTRIES.values(), index=len(COUNTRIES) - 1)
+    geo_code = get_key_from_value(COUNTRIES, geo_picker)
+    
+    time_period_picker = st.selectbox('Time range', TIMEFRAMES, index=2)
+    
+    search_property_picker = st.selectbox('Search property', ('search', 'images', 'news', 'youtube', 'froogle'))
 
-        search_property_picker = st.selectbox('Search property', ('search', 'images', 'news', 'youtube', 'froogle'))
-
-        if search_property_picker == 'search':
-            search_property_picker = ''
+    if search_property_picker == 'search':
+        search_property_picker = ''
                 
-        # category_picker = st.selectbox('Category', ('Email', 'Home phone', 'Mobile phone'))
+    # category_picker = st.selectbox('Category', ('Email', 'Home phone', 'Mobile phone'))
     
         
 
     
 
 # Filters out zero len kwds
+
+    st.markdown('---')
+
+        
 non_empty_kwds = [kwd for kwd in kwds if len(kwd) > 0]
 
 # Faudra sans doute mettre ca dans un try/except pour cas ou il n'y a pas de mots clés tappés
@@ -50,7 +61,32 @@ non_empty_kwds = [kwd for kwd in kwds if len(kwd) > 0]
 df = interest_over_time(non_empty_kwds, geo_code=geo_code, timeframe=time_period_picker, gprop=search_property_picker)
 df.drop('isPartial', axis=1, inplace=True)
 
+@st.cache
+def convert_df(df):
+    # IMPORTANT: Cache the conversion to prevent computation on every rerun
+    return df.to_csv().encode('utf-8')
+
+csv = convert_df(df)
+
+
+with export_options:
+    
+    st.download_button(
+        label="Download data as CSV",
+        data=csv,
+        file_name='large_df.csv',
+        mime='text/csv',
+    )
+
+
 st.markdown('#')
+
+
+# col5, col6= st.columns([2, 5])
+# with col5:
+#     st.bar_chart(df)
+
+# with col6:
 
 st.line_chart(df)
 
