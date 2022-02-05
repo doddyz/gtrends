@@ -1,11 +1,12 @@
-# Voir pourquoi UK searches bugging
 # Build line graph with altair with tooltips for dimensions + dates
+# Push & Deploy as streamlit cloud to check no web bugs
+# Treat empty data exceptions & fix no UK trends data
 # Build data to use in the average bar chart
 # Next check other pytrends available
 
-
-from trends import *
+import altair as alt
 import streamlit as st
+from trends import *
 
 st.set_page_config('Google Trends', page_icon=':chart_with_upwards_trend:', layout='wide', initial_sidebar_state='expanded')
 
@@ -74,7 +75,7 @@ with export_options:
     st.download_button(
         label="Download data as CSV",
         data=csv,
-        file_name='large_df.csv',
+        file_name='interest_over_time.csv',
         mime='text/csv',
     )
 
@@ -88,8 +89,23 @@ st.markdown('#')
 
 # with col6:
 
-st.line_chart(df)
+# Converting to long form tabular data friendly to altair using pandas melt method
 
+# Add date as a column
+source = df.reset_index()
+source = source.melt('date', var_name='term', value_name='value')
+
+# source
+
+c = alt.Chart(source).mark_line().encode(
+    x='date',
+    y='value',
+    color='term',
+    # strokeDash='symbol',
+)
+
+# st.line_chart(df)
+st.altair_chart(c, use_container_width=True)
 
 
 
