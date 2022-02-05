@@ -97,15 +97,24 @@ source = source.melt('date', var_name='term', value_name='value')
 
 # source
 
-c = alt.Chart(source).mark_line().encode(
+base = alt.Chart(source).encode(
     x='date',
     y='value',
     color='term',
-    # strokeDash='symbol',
+    tooltip='value'
+
 )
 
+line = base.mark_line()
+points = base.mark_point(filled=True, size=40)
+chart = (line + points)
+
+# Allows use of tooltip in chart full size/expanded mode
+st.markdown('<style>#vg-tooltip-element{z-index: 1000051}</style>',
+             unsafe_allow_html=True)
+
 # st.line_chart(df)
-st.altair_chart(c, use_container_width=True)
+st.altair_chart(chart, use_container_width=True)
 
 
 
