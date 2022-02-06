@@ -1,8 +1,7 @@
-# Fix no UK trends data
-# Build line graph with altair with tooltips for dimensions + dates
 # Push & Deploy as streamlit cloud to check no web bugs
 # Build data to use in the average bar chart
 # Next check other pytrends available
+# Check Altair Advanced multiline tooltip in docs for tooltip closer to real Google Trends
 
 import altair as alt
 import streamlit as st

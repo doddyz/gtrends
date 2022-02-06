@@ -2,9 +2,8 @@
 
 # !pip install pytrends
 
-import pandas as pd
 import numpy as np
-import seaborn as sns
+import pandas as pd
 from pytrends.request import TrendReq
 # from google.colab import files
 
