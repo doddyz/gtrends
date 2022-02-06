@@ -1,4 +1,4 @@
-# Treat empty data exceptions & fix no UK trends data
+# Fix no UK trends data
 # Build line graph with altair with tooltips for dimensions + dates
 # Push & Deploy as streamlit cloud to check no web bugs
 # Build data to use in the average bar chart

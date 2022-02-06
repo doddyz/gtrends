@@ -40,7 +40,7 @@ COUNTRIES = {'AU': 'Australia',
   'SE': 'Sweden',
   'CH': 'Switzerland',
   'TW': 'Taiwan',
-  'UK': 'United Kingdom',
+  'GB': 'United Kingdom',
   'US': 'United States'}
 
 KWD_LIST = ['pfizer', 'astrazeneca', 'moderna']
