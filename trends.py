@@ -1,6 +1,4 @@
 # Se focaliser sur trends over time line graphs pour liste de mots clés a surveiller
-# Next is gspread integration for autovisualizations in Sheets & then DF 
-# Forms in Colab for interactive kwd input if possible
 
 # !pip install pytrends
 
@@ -51,7 +49,7 @@ DEFAULT_TIMEFRAME = 'today 12-m'
 # KWD_LIST = ['touch tool', 'multi tool']
 
 # Refine tz param value to uk local value, see live params in web trends tool 
-pytrends = TrendReq(hl='en-US', tz=360)
+pytrends = TrendReq(hl='en-US', tz=360, timeout=(10, 25))
 
 def interest_over_time(kwd_list, geo_code='US', timeframe=DEFAULT_TIMEFRAME, gprop='', export=0):
     # Empty geo param to get a list of countries with interest

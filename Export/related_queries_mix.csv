@@ -1,0 +1,12 @@
+query,value,query_type
+no touch tool,100,top
+better touch tool,60,top
+brass touch tool,35,top
+safe touch tool,25,top
+brass keychain touch tool,9,top
+anti touch tool,9,top
+brass touch tool,289950,rising
+brass keychain touch tool,77450,rising
+anti touch tool,77350,rising
+no touch tool,2200,rising
+safe touch tool,190,rising
